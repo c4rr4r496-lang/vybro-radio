@@ -4,38 +4,131 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>VYBRO RADIO</title>
+
+  <style>
+    body {
+      margin: 0;
+      background: #000;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    h1 {
+      margin-top: 40px;
+      font-size: 32px;
+    }
+
+    .player-box {
+      margin-top: 30px;
+    }
+
+    button {
+      margin: 5px;
+      padding: 10px 15px;
+      border: none;
+      cursor: pointer;
+      background: #fff;
+      color: #000;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background: #ccc;
+    }
+
+    #track {
+      margin-top: 20px;
+      font-size: 18px;
+      opacity: 0.8;
+    }
+  </style>
 </head>
 
-<body style="background:black;color:white;text-align:center;font-family:Arial;">
+<body>
 
   <h1>🎵 VYBRO RADIO</h1>
   <p>Playlist oficial da VYBRO Streetwear</p>
 
-  <p id="track">Now Playing: Never Scared</p>
+  <div class="player-box">
 
-  <!-- PLAYER -->
-  <audio id="player" controls>
-    <source src="01-never-scared.mp3" type="audio/mpeg">
-    Seu navegador não suporta áudio HTML5.
-  </audio>
+    <p id="track">Now Playing: Never Scared</p>
 
-  <br><br>
+    <audio id="player" controls></audio>
 
-  <!-- CONTROLES -->
-  <button onclick="document.getElementById('player').play()">▶ Play</button>
-  <button onclick="document.getElementById('player').pause()">⏸ Pause</button>
+    <br><br>
+
+    <button onclick="prevSong()">⏮ Prev</button>
+    <button onclick="playSong()">▶ Play</button>
+    <button onclick="pauseSong()">⏸ Pause</button>
+    <button onclick="nextSong()">⏭ Next</button>
+
+  </div>
 
   <script>
+    const songs = [
+      {
+        name: "Never Scared",
+        url: "https://raw.githubusercontent.com/c4rr4r496-lang/vybro-radio/main/01-never-scared.mp3"
+      },
+      {
+        name: "A Bar Song (Tipsy)",
+        url: "https://raw.githubusercontent.com/c4rr4r496-lang/vybro-radio/main/02-a-bar-song-tipsy.mp3"
+      },
+      {
+        name: "Flowers",
+        url: "https://raw.githubusercontent.com/c4rr4r496-lang/vybro-radio/main/03-flowers.mp3"
+      },
+      {
+        name: "Focus",
+        url: "https://raw.githubusercontent.com/c4rr4r496-lang/vybro-radio/main/04-focus.mp3"
+      },
+      {
+        name: "Industry Baby",
+        url: "https://raw.githubusercontent.com/c4rr4r496-lang/vybro-radio/main/06-industry-baby.mp3"
+      },
+      {
+        name: "B.O.B",
+        url: "https://raw.githubusercontent.com/c4rr4r496-lang/vybro-radio/main/09-bob.mp3"
+      },
+      {
+        name: "Swag Surfin",
+        url: "https://raw.githubusercontent.com/c4rr4r496-lang/vybro-radio/main/13-swag-surfin.mp3"
+      }
+    ];
+
+    let current = 0;
+
     const player = document.getElementById("player");
     const track = document.getElementById("track");
 
-    player.addEventListener("play", () => {
-      track.textContent = "Now Playing: Never Scared";
-    });
+    function loadSong(index) {
+      player.src = songs[index].url;
+      track.textContent = "Now Playing: " + songs[index].name;
+    }
 
-    player.addEventListener("pause", () => {
-      track.textContent = "Paused";
-    });
+    function playSong() {
+      player.play();
+    }
+
+    function pauseSong() {
+      player.pause();
+    }
+
+    function nextSong() {
+      current = (current + 1) % songs.length;
+      loadSong(current);
+      player.play();
+    }
+
+    function prevSong() {
+      current = (current - 1 + songs.length) % songs.length;
+      loadSong(current);
+      player.play();
+    }
+
+    // init
+    loadSong(current);
   </script>
 
 </body>
